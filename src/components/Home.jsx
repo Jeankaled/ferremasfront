@@ -1,9 +1,30 @@
 // src/components/Home.jsx
 import React, { useState } from 'react';
-import '../styleInicio.css';         // ajusta la ruta si lo pones en otro sitio
+ import '../styleInicio.css';     
+ import { fetchProductos } from '../Services/api';
+import ListaProductos from './ListaProductos';
+import { useEffect } from 'react';
+
 
 export default function Home() {
   const [cartCount, setCartCount] = useState(0);
+  const [productos, setProductos] = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [error, setError]       = useState(null)
+
+
+   useEffect(() => {
+    fetchProductos()
+      .then(res => setProductos(res.data))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [])
+
+
+  if (loading) return <p>Cargando productos…</p>
+  if (error)   return <p>Error al cargar productos: {error}</p>
+
+
 
   function addToCart(productName) {
     setCartCount(count => count + 1);
@@ -25,53 +46,8 @@ export default function Home() {
 
       {/* Productos por Categoría */}
       <section id="productos" className="productos-categoria">
-        <h2>Productos por Categoría</h2>
-        <div className="productos">
-          <div className="producto">
-            <img
-              src="https://ferrobal.cl/wp-content/uploads/2023/10/clavo-4-1kg.png"
-              alt="Clavo Corriente"
-            />
-            <p className="producto-nombre">Clavo Corriente 4", bolsa 1kg</p>
-            <p className="producto-precio">$1,890</p>
-            <button
-              className="agregar-btn"
-              onClick={() => addToCart('Clavo Corriente 4", bolsa 1kg')}
-            >
-              Agregar al carrito
-            </button>
-          </div>
-
-          <div className="producto">
-            <img
-              src="https://rgm.vtexassets.com/arquivos/ids/156235-800-auto?v=638554617786370000&width=800&height=auto&aspect=true"
-              alt="Martillo Carpintero"
-            />
-            <p className="producto-nombre">Martillo Carpintero 16 Oz Uyustools</p>
-            <p className="producto-precio">$8,490</p>
-            <button
-              className="agregar-btn"
-              onClick={() => addToCart('Martillo Carpintero 16 Oz Uyustools')}
-            >
-              Agregar al carrito
-            </button>
-          </div>
-
-          <div className="producto">
-            <img
-              src="https://construmartcl.vtexassets.com/arquivos/ids/230441-800-auto?v=638811980566570000&width=800&height=auto&aspect=true"
-              alt="Destornillador"
-            />
-            <p className="producto-nombre">Destornillador Punta Paleta 5 x 75 mm</p>
-            <p className="producto-precio">$3,407</p>
-            <button
-              className="agregar-btn"
-              onClick={() => addToCart('Destornillador Punta Paleta 5 x 75 mm')}
-            >
-              Agregar al carrito
-            </button>
-          </div>
-        </div>
+        <h1>Catálogo de Productos</h1>
+        <ListaProductos productos={productos} />
       </section>
 
       {/* Productos con Descuento */}

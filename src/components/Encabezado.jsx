@@ -1,5 +1,7 @@
 import react, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../styleInicio.css';  
+import '../styleEncabezado.css';
 
 export default function Encabezado({onSearch}) {
 
@@ -27,7 +29,7 @@ export default function Encabezado({onSearch}) {
                             <Link to="/Home" padding="10px">Home</Link>
                             <Link to="/productos" padding="10px">Productos</Link>
                             <Link to="/Login" padding="10px">Login</Link>
-                            <Link to="#" padding="10px">Quienes somos</Link> 
+                            <Link to="/carrito" padding="10px">Carrito</Link> 
                             
                         </nav>
                         <form onSubmit={handleSubmit}>
@@ -41,9 +43,7 @@ export default function Encabezado({onSearch}) {
                             <button className="btn">Buscar</button>
                         </form>
 
-                        <div>
-                            <a href="#micuenta">carrito</a>
-                        </div>
+                       
 
                     </div>
                 </div>
